@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block title %} 
+{% if account['userType']=='Admin' %} New {% endif %}
+{{ title }} 
+{% endblock %}
+
+{% block content%}
+
+<br/>
+<div class="content"> 
+    <h2>New  Register</h2>
+</div> 
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<div class="register" {% if account['userType']=='Admin'%} style='margin-top:40px;' {% endif %}>
+	{% include "includes/alert.html" %}
+    
+    <h1>Add Verifier</h1>
+    <div class="links">
+        <a href="{{ url_for('register') }}" class="active">New Register</a>  
+    </div>
+    <form action="{{ url_for('register') }}" method="post" autocomplete="off" oninput='cnfrmpassword.setCustomValidity(cnfrmpassword.value != password.value ? "Passwords do not match." : "")'>
+        
+        <label for="name">
+            <i class="fas fa-address-book fa-lg"></i>
+        </label>
+        <input type="text" name="name" placeholder="Enter Your Name" id="name" required>
+
+        <label for="userType">
+            <i class="fas fa-user-cog"></i>
+        </label>
+        <select name="userType" placeholder="User Type" id="userType" required>
+            <option value="Verifier">Verifier</option>
+        </select>
+        
+        <label for="clgName" name="clgName">
+            <i class="fas fa-university"></i>
+        </label>
+        <select name="clgName" placeholder="User Type" id="clgName" required> 
+            <option value="Jawaharlal Nehru Technological University,kakinada">Jawaharlal Nehru Technological University,kakinada</option>
+        </select>             
+
+        <label for="username">
+            <i class="fas fa-user"></i>
+        </label>
+        <input type="text" name="username" placeholder="Username" id="username" pattern="[A-Z_a-z]{3,}[0-9]{2,}" required title="Username Must contain Starts with Capital and numbrs in it ex:Sai12">
+        
+        <label for="password">
+            <i class="fas fa-lock"></i>
+        </label>
+        <input type="password" name="password" placeholder="Password" id="password" required pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*_=+-])(?=.*[0-9]).{8,16}" title="Minimum 8 characters, atleast one (capital && small && special && number): ex:Sai@1234">          <!-- pattern="^(?=.[A-Za-z])(?=.\d)(?=.[@$!%#?&])[A-Za-z\d@$!%*#?&]{8,}$" -->
+
+        <label for="cnfrmpassword">
+            <span class="input-group-text">
+                <i class="fa fa-lock"></i>
+            </span>    
+        </label>
+        <input type="password" name="cnfrmpassword" placeholder="Confirm Password" id="cnfrmpassword" required>   
+
+        <label for="email">
+            <i class="fas fa-envelope"></i>
+        </label>
+        <input type="email" name="email" placeholder="Email" id="email" required>
+        
+        <select id="clgsAlloted" name="colleges"   multiple class="form-control" style=" width:90%;">
+        </select>
+        
+        <script>
+            $(function()
+            {
+                $.ajax({
+                    type : 'POST',
+                    url : '/getColleges'
+                  })
+                  .done(function(data) 
+                  {
+                      data.colleges.forEach(getCollege);                    
+                      function getCollege(item)
+                      {
+                          $('#clgsAlloted').append(`<option value='${item}'>${item}</option>`);
+                      }
+                      $('#clgsAlloted').select2({
+                          placeholder: 'Select Colleges',
+                          allowClear: true,
+                      });
+                      
+                  });
+            });
+        </script>
+        
+        <input type="submit" value="Register">
+    </form>
+</div>
+<!--for flash alerts start -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<!--end for flash alerts-->
+{% endblock %}

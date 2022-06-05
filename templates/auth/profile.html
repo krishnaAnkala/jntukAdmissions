@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %} {{ title }} {% endblock %}
+{% block content %}
+{% include "includes/alert.html" %}
+<div class="loggedin">
+    <div class="content">         
+            <h2>Profile</h2>
+            <div>
+                <p>Your account details are below:</p>
+                <table>
+                    <tr>
+                        <td>User Name:</td>
+                        <td>{{auth['username']}}</td>
+                    </tr>
+                    <tr>
+                        <td>User Type:</td>
+                        <td>{{ auth['userType'] }}</td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td>{{ auth['email'] }}</td>
+                    </tr>
+                    {% if account['userType']=='Verifier'%}
+                    <h2 id="accId" hidden>{{ account['id']}}</h2>
+                    <tr>
+                        <td>Colleges Assigned:</td>
+                        <td id="clgs"></td>
+                    </tr>
+                    <script>
+                        $(function()
+                        {
+                            $.ajax({
+                                data:{
+                                    clerk_Id:$('#accId').text(),
+                                },
+                                type : 'POST',
+                                url : '/getVerifierColleges'
+                            })
+                            .done(function(data) 
+                            {
+                                
+                                data.colleges.forEach(getCollege);     
+                                s=''               
+                                function getCollege(item)
+                                {
+                                    $('#clgs').append(`${item}`+'<br/>');
+                                }
+                                
+                                
+                            });
+                        });
+                    </script>
+                    {% endif %}
+                </table>
+            </div>            
+    </div>
+</div>
+{% endblock %}

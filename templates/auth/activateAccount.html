@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ title }}{% endblock %}
+{% block content %}
+<br/>
+<div class="content"> 
+    <h2>New Account Activation</h2>
+</div>
+
+<div class="container-fluid">
+    <div class="row justify-content-center "> 
+        <div class="col-12 col-md-10 col-lg-10 text-center p-0 mb-2">
+            <div class="card  border border-light  shadow  bg-white rounded">
+                <div class="card-body">
+                    <div id="successAlert" class="alert alert-success" role="alert" style="display:none;"></div>
+	                <div id="errorAlert" class="alert alert-danger" role="alert" style="display:none;"></div>
+                    
+                    <table class="table" id="accountsTable">
+                        <tr>
+                            <th>Name</th>
+                            <th >College Name</th>
+                            <th>User Name</th>
+                            <th>Email</th>   
+                            <th>Activate</th> 
+                            <th>Submit</th>
+                            <th>Delete</th>                                
+                        </tr>
+                        {% for key,values in accountsNotActivated.items() %}
+                            <form class="form-inline">
+                                <tr>
+                                    <td>{{values[0]}}</td>
+                                    <td >{{values[1]}}</td>
+                                    <td>{{values[2]}}</td>
+                                    <td>{{values[3]}}</td>
+                                    <td>
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="{{values[2]}}" >
+                                            <label class="custom-control-label" for="{{values[2]}}"></label>
+                                        </div>
+                                    </td> 
+                                    <td><input type="button" id="{{values[2]}}Submit" class="btn btn-success" value="Submit"></td>         
+                                    <td><input type="button" id="{{values[2]}}Delete" class="btn btn-danger" value="Delete"></td></td>                          
+                                </tr>
+                            </form>
+                        {% endfor %}
+                    </table>
+                        
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+
+    $('table').on('click','input[value="Submit"]',function() 
+    {
+        $tr=$(this).closest('tr');
+        var dataOfRecord=$tr.children("td").map(function()
+        {
+            return $(this).text();
+        }).get();
+        
+        
+        if(document.getElementById(dataOfRecord[2]).checked)
+            document.getElementById(dataOfRecord[2]).value=1;            
+        else
+            document.getElementById(dataOfRecord[2]).value=0; 
+        if(document.getElementById(dataOfRecord[2]).value==0)
+            {
+                toastr.error("Account not Activated");
+                document.getElementById(dataOfRecord[2]).focus();
+                return;
+            }
+
+        if(confirm('Are u Sure?'))
+        {
+            $.ajax({
+                data : {
+                uname : dataOfRecord[2],
+                activeVale:document.getElementById(dataOfRecord[2]).value,
+                email:dataOfRecord[3]
+            },
+                type : 'POST',
+                url : '/activateAccount'
+            })
+            .done(function(data) 
+            { 
+                if(data.success)  
+                {
+                    
+                    i=dataOfRecord[2]+'Submit';
+                    document.getElementById(i).value='Submitted';
+                    document.getElementById(i).style.color='#11ec39';
+                    toastr.success(data.msg);
+                }  
+                else
+                {
+                    toastr.error(data.msg);
+                } 
+            });
+            
+            event.preventDefault();
+        }    
+
+    });
+   
+   });
+   $('table').on('click','input[value="Delete"]',function() 
+    {
+        $tr=$(this).closest('tr');
+        var dataOfRecord=$tr.children("td").map(function()
+        {
+            return $(this).text();
+        }).get();
+        
+
+        if(confirm('Are u Sure to Delete '+dataOfRecord[2]+' ?'))
+        {
+            $.ajax({
+                data : {
+                uname : dataOfRecord[2],
+                name:dataOfRecord[0],
+                email:dataOfRecord[3]
+            },
+                type : 'POST',
+                url : '/deleteAccount'
+            })
+            .done(function(data) 
+            { 
+                if(data.success)  
+                {
+                    toastr.success(data.msg);
+                    $tr.remove();
+                }  
+                else
+                {
+                    toastr.error(data.msg);
+                } 
+            });
+            
+            event.preventDefault();
+        }    
+
+    });
+</script>
+
+{% endblock %}
+
