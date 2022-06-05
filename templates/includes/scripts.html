@@ -1,0 +1,144 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<!-- <script src="https://use.fontawesome.com/your-embed-code.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!--for flash alerts start -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<!--end for flash alerts-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js"></script>
+
+<!-- Alternate for bootstrap and jquery -->
+<!-- <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+
+<!-- for Ajax --> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<script>
+    function verify(){
+      let step1_obj = getDataToSend();
+
+      if (Validate_personal_details(step1_obj) === true){
+        
+        $('#submitBtn').click();
+      }
+
+      
+  }
+    function getDataToSend(){
+      let obj = {};
+          obj.name = $("#name").val();
+          obj.rno = $("#rno").val();
+          obj.emrank = $("#emrank").val();
+          obj.ssc = $("#ssc").val();
+          obj.inter = $("#inter").val();
+          obj.branch = $("#branch").val();
+          obj.res = $("#res").val();
+          obj.wcard = $("#wcard").val();
+          obj.uploadpdf = $("#uploadpdf").val();
+          obj.acaYear=$('#acaYear').val();
+          return obj;
+  }
+
+
+  function Validate_personal_details(obj) {
+          
+    if(obj.name == "" || obj.name == null){
+        toastr.error("Name is required");
+        $("#name").focus();
+        return false;
+    }
+    if(obj.rno == "" || obj.rno == null){
+      toastr.error("Roll no is required");
+      $("#rno").focus();
+        return false;
+    }
+    if(obj.acaYear == "" || obj.acaYear == null){
+      toastr.error("Academic Year is required");
+      $("#acaYear").focus();
+        return false;
+    }
+    
+    if(obj.emrank == "" || obj.emrank == null){
+      toastr.error("Eamcet Rank is required");
+      $("#emrank").focus();
+        return false;
+    }
+    if(obj.ssc == "" || obj.ssc == null){
+      toastr.error("SSC marks are required");
+      $("#ssc").focus();
+        return false;
+    }
+    if(obj.inter == "" || obj.inter == null){
+      toastr.error("Inter marks are required");
+      $("#inter").focus();
+        return false;
+    }
+    if(obj.branch == "" || obj.branch == null){
+      toastr.error("Branch is required");
+      $("#branch").focus();
+        return false;
+    }
+    if(obj.res == "" || obj.res == null){
+      toastr.error("Reservation category is required");
+      $("#res").focus();
+        return false;
+    }
+    if(obj.wcard == "" || obj.wcard == null){
+      toastr.error("White card is required");
+      $("#card").focus();
+        return false;
+    }
+
+    if($("#uploadpdf").val()==""){
+      toastr.error("Pdf not uploaded");
+      $("#uploadpdf").focus();
+      return false;
+     }
+     else if(($("#uploadpdf").val().split('.').pop())=="pdf")
+     {
+       //document.getElementById("").click(); 
+        return true;
+     }
+     else
+     { 
+        toastr.error("only pdf files should be uploaded");
+        $("#uploadpdf").focus();
+        return false;
+    } 
+    return true;
+  }
+  
+  $('#myModal').on('shown.bs.modal', function () {
+    $('#myInput').trigger('focus');
+  })
+
+  function verifyexcel(){
+   if($("#uploadfile").val()==""){
+    toastr.error("Exelfile not uploaded");
+    $("#uploadfile").focus();
+    return;
+   }
+   else if(($("#uploadfile").val().split('.').pop())=="xlsx" || ($("#uploadfile").val().split('.').pop())=="xls" )
+   {
+      document.getElementById('upload').setAttribute("data-target", "#exampleModal");
+      document.getElementById('upload').setAttribute("onclick", "");
+      document.getElementById("upload").click(); 
+      return;
+   }
+   else
+   { 
+      toastr.error("only excel files should be uploaded");
+      $("#uploadfile").focus();
+      return;
+  } 
+    
+
+    }
+
+
+</script>

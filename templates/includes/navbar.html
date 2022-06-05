@@ -1,0 +1,63 @@
+<!--
+<div class="flex-center position-ref full-height">
+
+        <div class="top-right links">
+
+                {% if account['loggedin']  %}
+                        <a href="{{ url_for('home') }}">Home</a>
+                {% else %}
+                        {{account[loggedin]}}
+                        <a href="{{ url_for('login') }}">Login</a>
+                        <a href="{{ url_for('register') }}">Register</a>
+
+                 {% endif %}
+        </div>
+
+</div> -->
+<div class="container flex-center position-ref full-height">
+        <div class="top-right links">
+                <nav class="navtop">
+
+                        <div>
+                                <h1> </h1>
+                                {% if account['loggedin']  %}
+                                        <a href="{{ url_for('home') }}" class ="{% if request.endpoint =='home' %} text-dark  {% else %}  {% endif %}"><i class="fas fa-home"></i>Home</a>
+
+                                        {% if account['userType']=='Verifier' %}
+                                                 <a href="{{ url_for('verifier') }}" class ="{% if request.endpoint =='verifier' %} text-dark  {% else %}  {% endif %}"><i class="fas fa-pen-alt"></i>Verifier</a>
+                                        {% endif %}
+                                        {% if account['userType']=='User' %}
+                                                <a href="{{ url_for('dashboard') }}" class ="{% if request.endpoint =='dashboard' %} text-dark  {% else %}  {% endif %}"><i class='fas fa-sliders-h'></i>Dashboard</a>
+                                                <a href="{{ url_for('uploadData') }}" class ="{% if request.endpoint =='uploadData' %} text-dark  {% else %}  {% endif %}"><i class='fa fa-upload'></i>Upload</a>
+                                        {% endif %}
+                                        <a href="{{ url_for('studentData') }}" class ="{% if request.endpoint =='studentData' %} text-dark  {% else %}  {% endif %}"><i class='fas fa-user-graduate'></i>Student Data</a>
+                                        {% if account['userType']=='Admin' %}
+                                                <button class="btn dropdown-toggle  {% if request.endpoint =='admin_register' or request.endpoint =='verifier_register' %} text-dark  {% else %}  {% endif %}"  style="outline:none;box-shadow:none;" type="button" data-toggle="dropdown"><i class='fas fa-user-shield'></i> New Register</button>
+                                                <ul class="dropdown-menu">
+                                                        <li><a href="{{ url_for('admin_register') }}" class="{% if request.endpoint =='admin_register' %} text-dark  {% else %}  {% endif %}">Add Admin</a></li>
+                                                        <li><a href="{{ url_for('verifier_register') }}" class="{% if request.endpoint =='verifier_register' %} text-dark  {% else %}  {% endif %}">Add Verifier</a></li>
+                                                </ul>
+                                                <a href="{{ url_for('activateAccount') }}" class ="{% if request.endpoint =='activateAccount' %} text-dark  {% else %}  {% endif %}"><i class='fas fa-user-secret'></i>Activate Account</a>
+                                        {% endif %}
+                                        <a href="{{ url_for('profile') }}" class ="{% if request.endpoint =='profile' %} text-dark  {% else %}  {% endif %}"><i class="fas fa-user-circle"></i>Profile</a>
+                                        <a href="{{ url_for('logout') }}" class ="{% if request.endpoint =='logout' %} text-dark  {% else %}  {% endif %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+
+
+                                {% else %}
+                                        <a href="{{ url_for('login') }}" class ="{% if request.endpoint =='login' %}  text-dark  {% else %}  {% endif %}"><i class="fas fa-fingerprint "></i>Login</a>
+                                        <a href="{{ url_for('register') }}" class ="{% if request.endpoint =='register' %} text-dark  {% else %}  {% endif %}"><i class='fas fa-user' ></i>Register</a>
+                                {% endif %}
+
+                        </div>
+
+                </nav>
+        </div>
+</div>
+<center>
+        <br/>
+        {% if account['userType']=='User' %}
+               <b> <p class="text-align:center;" style="color: #056e19; font-size:24px; font-weight: bold; margin-top:10px;"> {{account['clgName']}}</p> </b>
+       {% endif %}       
+</center>
+{% if account['userType']=='User' %}
+{% endif %}
