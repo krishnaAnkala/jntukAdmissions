@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  {% include 'includes/metadata.html' %}
+  {% include 'includes/scripts.html' %}
+  
+  <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" />
+  
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+  
+  <title>JNTUCEK | {% block title %} {% endblock %}</title>
+  <body>
+    {% include 'includes/header.html' %}
+    {% include 'includes/navbar.html' %}
+    
+    {% block content %}
+    
+    {% endblock %}
+        
+    {% include 'includes/footer.html' %}
+   
+  </body>
+</html>
