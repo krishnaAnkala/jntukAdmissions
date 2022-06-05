@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ title }}{% endblock %}
+{% block content %}
+<br/>
+<div class="content">
+    <h2>Student Data Validation</h2>
+    {% include "includes/alert.html" %}
+    <table class="table" id="dataTable">
+        <tr>
+            <th>Name</th>
+            <th>Roll No</th>
+            <th>College Name</th>
+            <th>Certificates</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for i,record in data_of_students.items() %}
+
+        <form class="form-inline">
+            <tr>
+                <td>{{record[0]}}</td>
+                <td >{{record[1]}}</td>
+                <td >{{record[2]}}</td>
+                <td><a href="/static/files/certificates/{{record[1]}}.pdf" target="_blank">certificates</a></td>
+                <td>
+                    <select class="form-control" name="docStatus" id="{{record[1]}}">
+                        <option value="Pending">Pending</option>
+                        <option value="Success">Success</option>
+                        <option value="Rejected">Rejected</option>
+                    </select>
+                    <br/>
+                    <textarea class="form-control" rows="2" cols="2" name="reason" id="{{record[1]}}reason" placeholder="Reason for Rejection" value="" form="usrform" style="display:none;"></textarea>
+
+                </td>
+                <td><input type="button" class="btn btn-danger" id="{{record[1]}}Submit" value="Submit"></td>
+            </tr>
+        </form>
+        {% endfor %}
+    </table>
+</div>
+<script>
+    $(document).ready(function()
+    {
+        $('table').on('change','select',function()
+        {
+            $tr=$(this).closest('tr');
+            var dataOfRecord=$tr.children("td").map(function()
+            {
+                return $(this).text();
+            }).get();
+
+            if(document.getElementById(dataOfRecord[1]).value=="Success" ||document.getElementById(dataOfRecord[1]).value=="Pending"  )
+            {
+                document.getElementById(''.concat(dataOfRecord[1],'reason')).value='';
+                document.getElementById(''.concat(dataOfRecord[1],'reason')).style.display = "none";
+
+            }
+            else
+            {
+                document.getElementById(''.concat(dataOfRecord[1],'reason')).style.display = "block";
+            }
+
+        });
+        $('table').on('click','input',function()
+        {
+
+            $tr=$(this).closest('tr');
+            var dataOfRecord=$tr.children("td").map(function()
+            {
+                return $(this).text();
+            }).get();
+
+            if(document.getElementById(dataOfRecord[1]).value=="Rejected" && document.getElementById(''.concat(dataOfRecord[1],'reason')).value=="")
+            {
+                toastr.error("Rejection reason is required");
+                document.getElementById(''.concat(dataOfRecord[1],'reason')).focus();
+                return;
+            }
+            if(confirm(dataOfRecord[0]+' '+dataOfRecord[1]+' '+document.getElementById(dataOfRecord[1]).value))
+            {
+                $.ajax({
+                data : {
+                    name : dataOfRecord[0],
+                    rno:dataOfRecord[1],
+                    docStatus:document.getElementById(dataOfRecord[1]).value,
+                    reason:document.getElementById(''.concat(dataOfRecord[1],'reason')).value
+                },
+                    type : 'POST',
+                    url : '/Verifier_Update_Docstatus'
+                })
+                .done(function(data)
+                {    if(data.success)
+                    {
+                        document.getElementById(''.concat(dataOfRecord[1],'Submit')).value='Submitted';
+                        document.getElementById(''.concat(dataOfRecord[1],'Submit')).style.color='#11ec39';
+                        toastr.success(data.msg);
+                    }
+                    if(data.error)
+                    {
+                        toastr.error(data.msg);
+                    }
+
+
+                });
+
+                event.preventDefault();
+            }
+
+
+        });
+
+   });
+</script>
+
+{% endblock %}
