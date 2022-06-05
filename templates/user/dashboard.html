@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+{% block title %} {{ title }} {% endblock %}
+{% block content %}
+
+<div class="content">
+            <h2>Dasboard</h2>
+    <style>
+        .content div
+        {
+            margin: 0;
+            padding: 25px 0;
+        }
+    </style>
+    <center>
+         <div class="col-lg-10 col-sm-6 col-md-6 branch_vs_nfstudents_Bar_Chart justify-content-center">
+            <div class="card card-style mb-2">
+                <div class="card-body">
+                    <div class="chart-container" style="position: relative;">
+                        <canvas id="branch_vs_nfstudents_Bar_Chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <div class="col-lg-10 col-sm-6 col-md-6 reservation_vs_nfstudents_Pie_Chart">
+            <div class="card card-style mb-2">
+                <div class="card-body">
+                    <div class="chart-container" style="position: relative;">
+                        <canvas id="reservation_vs_nfstudents_Pie_Chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <div class="col-lg-10 col-sm-6 col-md-6 branch_vs_nfstudents_emcet_Line_Chart">
+            <div class="card card-style mb-2">
+                <div class="card-body">
+                    <div class="chart-container" style="position: relative;">
+                        <canvas id="branch_vs_nfstudents_emcet_Line_Chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+<script>
+    const branch_bar=JSON.parse({{branch_bar|tojson}});
+    const stud_count__bar = JSON.parse({{stud_count__bar|tojson}});
+    const reservation_pie=JSON.parse({{reservation_pie|tojson}});
+    const stud_count__pie=JSON.parse({{stud_count__pie|tojson}});
+    const branch_line = JSON.parse({{branch_line|tojson}});
+    const stud_count_line = JSON.parse({{stud_count_line|tojson}});
+
+    if(branch_bar.length==0)
+       $('.branch_vs_nfstudents_Bar_Chart').hide();
+    if(reservation_pie.length==0)
+       $('.reservation_vs_nfstudents_Pie_Chart').hide();
+    if(branch_line.length==0)
+       $('.branch_vs_nfstudents_emcet_Line_Chart').hide();
+
+    Chart.scaleService.updateScaleDefaults('linear', {
+            ticks: {
+                min: 0
+            }
+    });
+    function getRandomColor(n)
+    {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        var colors=[];
+        for (var j = 0; j < n; j++ )
+        {
+           for (var i = 0; i < 6; i++ ) {
+            color += letters[Math.floor(Math.random() * 16)];
+            }
+            colors.push(color);
+            color = '#';
+        }
+
+        return colors;
+    }
+
+    let  branch_vs_nfstudents_Bar_Chart= new Chart(document.getElementById("branch_vs_nfstudents_Bar_Chart"),
+    {
+        type: 'bar',
+        data: {
+        labels: branch_bar,
+            datasets: [{
+                data: stud_count__bar,
+                backgroundColor: getRandomColor(branch_bar.length),
+                barPercentage: 0.5,
+                barThickness: 6,
+                maxBarThickness: 8,
+                minBarLength: 2,
+                borderWidth: 1,
+                hoverBorderColor: "black",
+                hoverBorderWidth: 2,
+                hoverBackgroundColor: 'rgba(154, 245, 140)',
+                pointHoverRadius: 5
+            }],
+        },
+        options: {
+                title: {
+                    display: true,
+                        text: "No of Students joined in different branches",
+                            fontSize: 20,
+                },
+                legend: {
+                    position: "right",
+                        labels: {
+                        fontColor: "gray"
+                    },
+                    display: false,
+                },
+
+                elements: {
+                    hitRadius: 3,
+                }
+        }
+    });
+
+
+    let reservation_vs_nfstudents_Pie_Chart = new Chart(document.getElementById("reservation_vs_nfstudents_Pie_Chart"),
+    {
+        type: 'pie',
+        data: {
+        labels: reservation_pie,
+            datasets: [{
+                label:'Name vs Ssc',
+                data: stud_count__pie,
+                backgroundColor: getRandomColor(reservation_pie.length),
+
+                borderWidth: 1,
+                hoverBorderColor: "black",
+                hoverBorderWidth: 2,
+                hoverBackgroundColor: 'rgba(154, 245, 140)',
+                pointHoverRadius: 5
+            }],
+        },
+        options: {
+                title: {
+                    display: true,
+                        text: "No of Students in different branches according to their Reservation",
+                            fontSize: 20,
+                },
+                legend: {
+                    position: "right",
+                        labels: {
+                        fontColor: "gray"
+                    },
+                    display: true,
+                },
+
+                elements: {
+                    hitRadius: 3,
+                }
+        }
+    });
+
+    let  branch_vs_nfstudents_emcet_Line_Chart= new Chart(document.getElementById("branch_vs_nfstudents_emcet_Line_Chart"),
+    {
+        type: 'line',
+        data: {
+        labels: branch_line,
+            datasets: [{
+                label: "",
+                data: stud_count_line,
+                backgroundColor: getRandomColor(stud_count__pie.length),
+                borderWidth:2,
+                pointRadius:8,
+                borderColor:'skyblue',
+                hoverBorderWidth: 2,
+                hoverBackgroundColor: 'rgba(154, 245, 140)',
+                pointHoverRadius: 5,
+                fill:false
+
+            }],
+        },
+        options: {
+                title: {
+                    display: true,
+                            text: "No of Students scored less than 1000 in eamcet in different branches",
+                            fontSize: 20,
+                },
+                legend: {
+                    position: "right",
+                        labels: {
+                        fontColor: "white"
+                    },
+                    display: false,
+                },
+
+                elements: {
+                    hitRadius: 3,
+                }
+        }
+    });
+
+
+
+
+    </script>
+{% endblock %}

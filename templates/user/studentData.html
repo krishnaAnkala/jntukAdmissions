@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ title }} {% endblock %}
+{% block content %}
+
+<br/>
+<div class="loggedin">
+    <div class="content">
+        <h2>Student Data</h2>        
+    </div>
+</div> 
+<div class="container-fluid">
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <select id="clgNameOpt" class="form-control">
+                    </select>
+                </div>
+                <div class="col-6 ">
+                    <select id="acaYearOpt" class="form-control">
+                        <option value="">Select Academic Year</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <h2 id="userTypeVal" hidden>{{account['userType']}}</h2>
+        <h2 id="clgNameVal" hidden>{{ account['clgName']}}</h2>
+        <h2 id="accId" hidden>{{ account['id']}}</h2>
+        <script>
+            $(function(){
+                if($('#userTypeVal').text()=='Admin')
+                {
+                    $.ajax({
+                        type : 'POST',
+                        url : '/getColleges'
+                    })
+                    .done(function(data) 
+                    {
+                        $('#clgNameOpt').append(`<option value="">Select College</option>`);
+                        data.colleges.forEach(getCollege);                    
+                        function getCollege(item)
+                        {
+                            $('#clgNameOpt').append(`<option value='${item}'>${item}</option>`);
+                        }
+                        
+                    });
+                }
+                else if ($('#userTypeVal').text()=='User')
+                {
+                    var clgName=$("#clgNameVal").text();
+                    $('#clgNameOpt').append(`<option value='${clgName}'>${clgName}</option>`); 
+                }
+                else
+                {
+                    $.ajax({
+                        data:{
+                            clerk_Id:$('#accId').text(),
+                        },
+                        type : 'POST',
+                        url : '/getVerifierColleges'
+                    })
+                    .done(function(data) 
+                    {
+                        $('#clgNameOpt').append(`<option value="">Select College</option>`);
+                        data.colleges.forEach(getCollege);                    
+                        function getCollege(item)
+                        {
+                            $('#clgNameOpt').append(`<option value='${item}'>${item}</option>`);
+                        }
+                        
+                    });
+                }
+                     
+                
+                var strDate = new Date();
+                var fullYear = strDate.getFullYear(); 
+                var shortYear = fullYear%100;
+                optionValue =fullYear-4+'-'+(shortYear+0);
+                $('#acaYearOpt').append(`<option value='${optionValue}'>${optionValue}</option>`);
+                optionValue =fullYear-3+'-'+(shortYear+1);
+                $('#acaYearOpt').append(`<option value='${optionValue}'>${optionValue}</option>`);
+                optionValue =fullYear-2+'-'+(shortYear+2);
+                $('#acaYearOpt').append(`<option value='${optionValue}'>${optionValue}</option>`);
+                optionValue =fullYear-1+'-'+(shortYear+3);
+                $('#acaYearOpt').append(`<option value='${optionValue}'>${optionValue}</option>`);
+        
+                
+                $('#clgNameOpt').on('change',function() 
+                {
+                    //alert($('#clgNameOpt').val()+' '+$('#acaYearOpt').val()+'----clg');
+                    clgName=$('#clgNameOpt').val();
+                    acaYear=$('#acaYearOpt').val();
+                    if(clgName!='' && acaYear!='')
+                    {
+                        $.ajax({
+                            data:{
+                                clgName:clgName,
+                                acaYear:acaYear,
+                                },
+                            type : 'POST',
+                            url : '/getStudents'
+                        })
+                        .done(function(data) 
+                        {  
+                            if(data.success && data.students.length!=0)
+                            {
+                                document.getElementById('studentData').hidden=false;  
+                                document.getElementById('studentData').innerHTML=''; 
+                                $('#studentData').append(`
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Roll No</th>
+                                    <th>Branch</th>
+                                    <th>Document Status</th>
+                                    <th>Reason</th>
+                                </tr>`);                       
+                                data.students.forEach(getStudent);                                                 
+                                function getStudent(item)
+                                {
+                                    $('#studentData').append(`
+                                    <tr>
+                                        <td>${item.name}</td>
+                                        <td>${item.rno}</td>
+                                        <td>${item.branch}</td>
+                                        <td style="font-weight: bold;">${item.docStatus}</td>                                        
+                                        <td><strong>${item.reason}</strong></b></td>
+                                    </tr>`);
+                                }
+                            }
+                            else if(data.error)
+                            {
+                                toastr.error(data.msg);
+                            }  
+                            else
+                            {
+                                toastr.error('No Existing Data');
+                                document.getElementById('studentData').hidden=true;
+                            }
+                                                            
+                            
+                        });
+                    }
+                    else
+                    {
+                        document.getElementById('studentData').hidden=false; 
+                        document.getElementById('studentData').innerHTML=''; 
+                    }
+                });
+                $('#acaYearOpt').on('change',function() 
+                { 
+                    //alert($('#clgNameOpt').val()+' '+$('#acaYearOpt').val()+'---year');
+                    clgName=$('#clgNameOpt').val();
+                    acaYear=$('#acaYearOpt').val();
+                    if(clgName!='' && acaYear!='') 
+                    {
+                        $.ajax({
+                            data:{
+                                clgName:clgName,
+                                acaYear:acaYear,
+                                },
+                            type : 'POST',
+                            url : '/getStudents'
+                        })
+                        .done(function(data) 
+                        {  
+                            if(data.success && data.students.length!=0)
+                            {
+                                
+                                document.getElementById('studentData').hidden=false;  
+                                document.getElementById('studentData').innerHTML=''; 
+                                $('#studentData').append(`
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Roll No</th>
+                                    <th>Branch</th>
+                                    <th>Document Status</th>
+                                    <th>Reason</th>
+                                </tr>`);                       
+                                data.students.forEach(getStudent);                                                 
+                                function getStudent(item)
+                                {
+                                    $('#studentData').append(`
+                                    <tr>
+                                        <td>${item.name}</td>
+                                        <td>${item.rno}</td>
+                                        <td>${item.branch}</td>
+                                        <td style="font-weight: bold;">${item.docStatus}</td>                                        
+                                        <td><strong>${item.reason}</strong></b></td>
+                                    </tr>`);
+                                }
+                            } 
+                            else if(data.error)
+                            {
+                                toastr.error(data.msg);
+                            } 
+                            else
+                            {
+                                toastr.error('No Existing Data');
+                                document.getElementById('studentData').hidden=true;
+                            }    
+                        });
+                    } 
+                    else
+                    {
+                        document.getElementById('studentData').hidden=false; 
+                        document.getElementById('studentData').innerHTML=''; 
+                    }                   
+                });
+            });
+        </script>
+        
+        <table class="table" id="studentData" border='1' hidden>
+            
+            
+            
+            
+        </table>       
+    </div>
+</div>        
+{% endblock %}

@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+
+{% block title %} {{ title }} {% endblock %}
+{% block content %}
+
+<div class="loggedin">
+  <div class="content"> 
+          <h2>Upload Student Data</h2>
+  </div>
+</div>
+<br/>
+<div class="container-fluid">
+  <div class="row justify-content-center ">     
+      <div class="col-12 col-md-7 col-lg-6 text-center">
+          {% include "includes/alert.html" %}
+      </div>
+  </div>
+</div>
+<div class="container-fluid" style="margin-top: 10px;">
+  <div class="row justify-content-center "> 
+      <div class="col-12 col-md-7 col-lg-6 text-center p-0 mb-2">
+          <div class="card   border border-light  shadow  bg-white rounded">
+              <div class="card-header bg-white">
+                <h3 class="card-title text-center">Student Details Form</h3>
+                
+              </div>
+              
+                    
+              <div class="card-body">
+                <form method="POST" action="{{url_for('uploadData')}}" enctype = "multipart/form-data">
+                  <div class="form-group row">
+                      <label for="name" class="col-md-4 col-form-label text-md-right">Student Name:</label>
+
+                      <div class="col-md-6">
+                          <input id="name" type="text" class="form-control " name="name" autofocus>
+
+                      </div>
+                  </div>
+
+                  <div class="form-group row">
+                      <label for="rno" class="col-md-4 col-form-label text-md-right">Roll No:</label>
+
+                      <div class="col-md-6">
+                          <input id="rno" type="text" class="form-control " name="rno" pattern="[0-9]{5,}[A-Z_a-z]{1,}[0-9]{3,}" required title="Roll_No is not of correct pattern ; correct pattern ex:18021A0501">
+
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="acaYear" class="col-md-4 col-form-label text-md-right">Academic Year:</label>
+                    <div class="col-md-6">
+                      <select class="form-control" name="acaYear" id="acaYear">
+                        <option value="">--select academic Year--</option>
+                      </select>
+                    </div>
+                    
+                  </div>
+                  <div class="form-group row">
+                    <label for="emrank" class="col-md-4 col-form-label text-md-right">Eamcet Rank:</label>
+
+                    <div class="col-md-6">
+                        <input id="emrank" type="number" min="1" class="form-control " name="emrank" >
+
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="ssc" class="col-md-4 col-form-label text-md-right">SSC Percentage::</label>
+
+                    <div class="col-md-6">
+                        <input id="ssc" type="number" min="10" max="100" minlength="2" class="form-control " name="ssc" >
+
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inter" class="col-md-4 col-form-label text-md-right">Intermediate Percentage:</label>
+
+                    <div class="col-md-6">
+                        <input id="inter" type="number" min="10"  max="100" minlength="2" class="form-control " name="inter" >
+
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                      <label for="branch" class="col-md-4 col-form-label text-md-right">Branch:</label>
+                      <div class="col-md-6">
+                          <select class="form-control" name="branch" id="branch">
+                            <option value="">--select branch--</option>
+                            <option value="CSE">CSE</option>
+                            <option value="EEE">EEE</option>
+                            <option value="MECH">MECH</option>
+                            <option value="ECE">ECE</option>
+                            <option value="CE">CE</option>
+                            <option value="PCE">PCE</option>
+                          </select>
+                      </div>  
+                      
+                  </div>
+                  <div class="form-group row">
+                    <label for="res" class="col-md-4 col-form-label text-md-right">Reservation:</label>
+                    <div class="col-md-6">
+                      <select class="form-control" name="res" id="res">
+                        <option value="">--select reservation--</option>
+                        <option value="OC">OC</option>
+                        <option value="SC">SC</option>
+                        <option value="ST">ST</option>
+                        <option value="BC-A">BC-A</option>
+                        <option value="BC-B">BC-B</option>
+                        <option value="BC-C">BC-C</option>
+                        <option value="BC-D">BC-D</option>
+                        <option value="BC-E">BC-E</option>
+                      </select>
+                    </div>
+                    
+                  </div>
+                  <div id="card" class="form-group row">
+                    <label for="wcard" class="col-md-4 col-form-label text-md-right">Has White Card:</label>
+                    <div class="col-md-6">
+                      <div class="row">  
+                        <div  class="col-md-2"></div>                      
+                        <div  class="col-sm-1"> 
+                          <input  id="wcard" type="radio" value="Yes" name="wcard" >
+                        </div>
+                        <div class="col-sm-2"> 
+                          <label for="wcard"  >Yes</label>                          
+                        </div>
+                      </div>  
+                      <div class="row">
+                        <div  class="col-md-2"></div>                         
+                        <div class="col-sm-1"> 
+                          <input id="wcard" type="radio" value="No" name="wcard" >
+                        </div>
+                        <div class="col-sm-2"> 
+                          <label for="wcard" >No</label>                          
+                        </div>
+                      </div>
+                    </div>         
+                  </div>
+
+                  <div class="form-group row">
+                    <label for="res" class="col-md-4 col-form-label text-md-right">Upload you Certificates:</label>
+                    <div class="col-md-6">
+                      <input id="uploadpdf" type="file" name="upload-pdf" accept=".pdf" class="">
+                    </div>
+                  </div>
+
+                  <input  type="text" name="docStatus" id="docStatus" value="Pending" style="display: none;"> 
+                  <div class="text-center">
+                    <input type="submit" name="submitBtn" id="submitBtn" value="Submit" style="display: none; "/>
+                    <input type="button" name="verifyButton" class="btn btn-lg btn-primary border border-danger" value="Submit" onclick="verify()"/>
+                  </div>
+
+                  
+                </form> 
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<br/>
+<div class="row justify-content-center" style="display:none;">
+  <strong><center>Or</center></strong>
+</div> 
+<br/> 
+<div class="container-fluid" style="display:none;">
+  <div class="row justify-content-center ">
+      <div class="col-12 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
+          <div class="card   border border-light  shadow  bg-white rounded">
+            {% if Excelmsg %}
+            <div class="card-header bg-white">
+              <h6 class="card-title text-success">{{ Excelmsg }}</h6>                
+            </div>
+            {% endif %}
+            <div class="card-header bg-white">
+              <h6 class="card-title text-center">Upload Excel</h6>
+                
+            </div>     
+              <div class="card-body">
+                    <form class="" action="xldata" method="post" enctype = "multipart/form-data">
+                      <input id="uploadfile" type="file" name="upload-file" accept=".xlsx" class="">
+                      <!-- <input type="submit" name="" value="Submit"> -->
+                      <!-- Button trigger modal -->
+                      <button id= "upload" type="button" class="btn btn-primary" data-toggle="modal"   onclick="verifyexcel()">
+                        Upload
+                      </button>  
+                      
+                      <!-- Modal -->
+                      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              Are You Sure to upload
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function() 
+        {
+          var strDate = new Date();
+          var fullYear = strDate.getFullYear(); 
+          var shortYear = fullYear%100;
+          optionValue =fullYear-4+'-'+(shortYear+0);
+          $('#acaYear').append(`<option value='${optionValue}'>${optionValue}</option>`);
+          optionValue =fullYear-3+'-'+(shortYear+1);
+          $('#acaYear').append(`<option value='${optionValue}'>${optionValue}</option>`);
+          optionValue =fullYear-2+'-'+(shortYear+2);
+          $('#acaYear').append(`<option value='${optionValue}'>${optionValue}</option>`);
+          optionValue =fullYear-1+'-'+(shortYear+3);
+          $('#acaYear').append(`<option value='${optionValue}'>${optionValue}</option>`);                
+        }
+  );
+</script>
+{% endblock %}
