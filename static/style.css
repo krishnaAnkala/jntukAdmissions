@@ -1,0 +1,281 @@
+.na-ti
+{
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align:center;
+    
+}
+a:hover{
+        text-decoration: none;
+}
+.jnt{
+    color: #056e19;
+    font-size: 28px;
+    font-weight: bold;
+}
+.jnt, .jnt-sub{
+        display: block;
+        text-decoration: none;
+        text-transform: capitalize;
+}
+.jnt-sub{
+    color: #333333;
+    font-size: 20px;
+}
+.efe {
+color: #da2d29;
+font-size: 13px;
+font-weight: bold;
+text-decoration: underline;
+}
+.copy{
+display: block;
+font-size: 12px;
+padding: 15px 0;
+text-align: center;
+}
+.card-footer{
+background: #dfdfdf none repeat scroll 0 0;
+border-top: 1px solid #fff;
+text-align: center;
+}
+.footer{
+  background: #dfdfdf none repeat scroll 0 0;
+  margin-top: 300px;
+  bottom:0;
+  margin-bottom: 0px;
+}
+
+#fields fieldset:not(:first-of-type) {
+    display: none
+}
+.action-button {
+    width: 100px;
+    background: #056e19;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 0px 10px 5px;    
+}
+
+html, body {
+    background-color: #fff;
+    color: #636b6f;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 200;
+    height: 10vh;
+    margin: 0;
+}
+
+
+
+.full-height {
+    height: 10vh;
+}
+
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.position-ref {
+    position: relative;
+}
+
+.top-right {
+    position: absolute;
+    right: 10px;
+    top: 18px;
+}
+
+.content {
+    text-align: center;
+}
+
+.title {
+    font-size: 84px;
+}
+
+.links > a {
+    color: #636b6f;
+    padding: 0 25px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.m-b-md {
+    margin-bottom: 30px;
+}
+
+
+* {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+body , #auth{
+    margin: 0;
+}
+.login, .register,.forgot {
+    width: 400px;
+    background-color: #ffffff;
+    box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
+    margin: 100px auto;
+    margin-bottom: 50px;
+}
+.otpForm {
+    width: 400px;
+    background-color: #ffffff;
+    box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
+    margin: 100px auto;
+    margin-top: 50px;
+}
+.login h1, .register h1,.forgot h1 {
+    text-align: center;
+    color: #5b6574;
+    font-size: 24px;
+    padding: 20px 0 20px 0;
+    border-bottom: 1px solid #dee0e4;
+}
+.login .links, .register .links ,.forgot .links,.otpForm .links{
+    display: flex;
+    padding: 0 15px;
+}
+.login .links a, .register .links a,.forgot .links a ,.otpForm .links a{
+    color: #adb2ba;
+    text-decoration: none;
+    display: inline-flex;
+    padding: 0 10px 10px 10px;
+    font-weight: bold;
+}
+.login .links a:hover, .register .links a:hover,.forgot .links a:hover,.otpForm .links a:hover{
+    color: #9da3ac;
+}
+.login .links a.active, .register .links a.active,.forgot .links a.active ,.otpForm .links a.acttive {
+    border-bottom: 3px solid #056e19;
+    color: #056e19;
+}
+.login form, .register form ,.forgot form ,.otpForm form{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 20px;
+}
+.login form label, .register form label,.forgot form label,.otpForm form label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background-color: #056e19;
+    color: #ffffff;
+}
+#clgsAllotedLabel
+{
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height:50px;
+    background-color: #056e19;
+    color: #ffffff; 
+}
+.login form input[type="password"], .login form input[type="text"], .login form input[type="email"], .register form input[type="text"], .register form input[type="email"],.register form input[type="password"],#userType,#clgName,#clgsAlloted,.forgot form input[type="password"], .forgot form input[type="text"], .forgot form input[type="email"],.otpForm form input[type="text"],.otpForm form input[type="text"], .otpForm form input[type="email"],.otpForm form input[type="password"],.otpForm form input[type="Number"]{
+    width: 310px;
+    height: 50px;
+    border: 1px solid #dee0e4;
+    margin-bottom: 20px;
+    padding: 0 15px;
+}
+
+.login form input[type="submit"], .register form input[type="submit"],.forgot form input[type="submit"],.otpForm form input[type="submit"]
+{
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #056e19;
+    border: 0;
+    cursor: pointer;
+    font-weight: bold;
+    color: #ffffff;
+    transition: background-color 0.2s;
+}
+.login form input[type="submit"]:hover, .register form input[type="submit"]:hover,.forgot form input[type="submit"]:hover,.otpForm form input[type="submit"]:hover {
+    background-color: #056e19;
+    transition: background-color 0.2s;
+}
+.navtop {
+    background-color:#fff;
+    height: 60px;
+    width: 100%;
+    border: 0;
+}
+.navtop div {
+    display: flex;
+    margin: 0 auto;
+    width: 1000px;
+    height: 100%;
+}
+.navtop div h1, .navtop div a {
+    display: inline-flex;
+    align-items: center;
+}
+.navtop div h1 {
+    flex: 1;
+    font-size: 24px;
+    padding: 0;
+    margin: 0;
+    color: #eaebed;
+    font-weight: normal;
+}
+.navtop div a ,.navtop div button{
+    padding: 0 10px;
+    text-decoration: none;
+    color: #c1c4c8;
+    font-weight: bold;    
+}
+
+.navtop div a i {
+    padding: 2px 8px 0 0;
+}
+.navtop div a:hover{
+    color: #056e19;
+}
+.content {
+    width: 1000px;
+    margin: 0 auto;
+}
+.content h2 {
+    margin: 0;
+    padding: 25px 0;
+    font-size: 22px;
+    border-bottom: 1px solid #e0e0e3;
+    color: #4a536e;
+}
+.content > p, .content > div {
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+    margin: 25px 0;
+    padding: 25px;
+    background-color: #fff;
+}
+.content > p table td, .content > div table td {
+    padding: 5px;
+}
+.content > p table td:first-child, .content > div table td:first-child {
+    font-weight: bold;
+    color: #4a536e;
+    padding-right: 15px;
+}
+.content > div p {
+    padding: 5px;
+    margin: 0 0 10px 0;
+}
